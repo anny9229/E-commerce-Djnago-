@@ -1,0 +1,46 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Category{% endblock title %}
+
+{% block main-content %}
+
+
+<div class="container">
+    <div class="row flex justify-content-between">
+        <div class="img2 col-lg-5 mt-5">
+            <img src="{{product.product_image.url}}"  class="image col-xs-6 col-sm-12 col-mg-12 mt-3 text-sm-center w-100 h-75" alt="">
+        </div>
+        <br>
+        <div class="productdetail col-lg-5"><br><br>
+            <h1 style="font-weight: Georgia; font-size: 50px;">
+                {{product.title}}
+            </h1>
+            <br>
+            <h5>Rs. {{product.discounted_price}}/-</h5>
+            <small class="text-decoration-line-through text-muted fs-5"><del>Rs. {{product.selling_price}}/-</del></small>
+            <br><br><h4>Product Features</h4>
+            <ul class="fs-8" style="font-family: Rajdhani;">
+                <li>{{product.description}}</li>
+                {% if product.stock_status == 'LT' %}
+                    <li style="font-size: 25px;">Stock Status : {{product.get_stock_status_display}}</li>
+                    <p style="font-size: 18px; color: red; margin-left: -30px;">Hurry Up , You can still purchase it..</p>
+                {% else  %}
+                    <li style="font-size: 25px;">Stock Status : {{product.get_stock_status_display}}</li>
+                {% endif %}
+            </ul>
+
+           
+            {% if product.stock_status != 'OUT' %}
+                <form action="/add-to-cart" class="d-inline">
+                    <input type="hidden" name="prod_id" value="{{product.id}}"/>
+                    <button type="submit" class=" btn btn-primary shadow px-5 py-2">Add to Cart</button>
+                </form>
+                <a href="{% url 'showcart' %}" class=" btn btn-warning shadow px-5 py-2 ms-4">Buy Now</a>
+            {% else %}
+                <button class="btn btn-secondary shadow px-5 py-2" disabled>Out of Stock</button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock main-content %}

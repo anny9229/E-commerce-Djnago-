@@ -1,0 +1,39 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Address{% endblock title %}
+
+{% block main-content %}
+
+<div class="container my-5">
+    <h3>Welcome ,<span class="text-capitalize">{{request.user}}</span></h3>
+        <br>
+    <div class="row">
+        <div class="col-sm-2 border-right">
+            <ul class="list-unstyled">
+                <li class="d-grid mb-2"><a href="{% url 'profile' %}" class="btn  w-100">Profile</a></li>
+                <li class="d-grid"><a href="{% url 'address' %}" class="btn btn-primary w-100">Address</a></li>
+            </ul>
+        </div>
+
+        <div class="col-sm-8 offset-sm-1">
+            <div class="row">
+                {% for ad in add %}
+                <div class="col-sm-6">
+                    <div class="card m-2">
+                        <div class="card-body text-left">
+                          <h5>Address {{forloop.counter}}</h5>
+                          <p class="mb-1 text-left">Name: {{ad.name}}</p>
+                          <p class="mb-1 text-left">Locality: {{ad.locality}}</p>
+                          <p class="mb-1 text-left">City: {{ad.city}}</p>
+                          <p class="mb-1 text-left">Mobile: {{ad.mobile}}</p>
+                          <p class="mb-1 text-left">State: {{ad.state}}</p>
+                          <p class="mb-1 text-left">Pin: {{ad.zipcode}}</p>
+                          <p class="mb-1 text-left"><a href="{% url 'updateAddress' pk=ad.id %}" type="button" class="btn btn-success mt-2">Update</a></p>
+                        </div>
+                      </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+{% endblock main-content %}

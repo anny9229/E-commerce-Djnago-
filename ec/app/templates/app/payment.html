@@ -1,0 +1,117 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Payment{% endblock title %}
+
+{% block main-content %}
+<div class="container">
+    <h4>Payment</h4>
+    <hr>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Payment Method</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="payment_method" id="cod" value="COD" checked>
+                <label class="form-check-label" for="cod">
+                    Cash on Delivery
+                </label>
+            </div>
+            <!-- Add more payment methods here if needed -->
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Shipping Address</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="address_choice" id="existing" value="existing" checked>
+                <label class="form-check-label" for="existing">
+                    Select Existing Address
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="address_choice" id="custom" value="custom">
+                <label class="form-check-label" for="custom">
+                    Enter New Address
+                </label>
+            </div>
+        </div>
+
+        <div id="existing-addresses" class="mb-3">
+            {% for address in existing_addresses %}
+                <div class="card mb-2">
+                    <div class="card-body">
+                        <h5>{{ address.name }}</h5>
+                        <p>Mobile: {{ address.mobile }}</p>
+                        <p>Locality: {{ address.locality }}</p>
+                        <p>City: {{ address.city }}, {{ address.state }} - {{ address.zipcode }}</p>
+                        <input type="radio" name="custid" value="{{ address.id }}" id="address{{ forloop.counter }}" {% if forloop.first %}checked{% endif %}>
+                        <label for="address{{ forloop.counter }}">Select this address</label>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No existing addresses found.</p>
+            {% endfor %}
+        </div>
+
+        <div id="custom-address" class="mb-3" style="display: none;">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" id="name">
+            </div>
+            <div class="mb-3">
+                <label for="mobile" class="form-label">Mobile Number</label>
+                <input type="number" class="form-control" name="mobile" id="mobile">
+            </div>
+            <div class="mb-3">
+                <label for="locality" class="form-label">Locality</label>
+                <input type="text" class="form-control" name="locality" id="locality">
+            </div>
+            <div class="mb-3">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" name="city" id="city">
+            </div>
+            <div class="mb-3">
+                <label for="state" class="form-label">State</label>
+                <select class="form-select" name="state" id="state">
+                    <option value="">Select State</option>
+                    {% for state in states %}
+                        <option value="{{ state }}">{{ state }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="zipcode" class="form-label">Zipcode</label>
+                <input type="number" class="form-control" name="zipcode" id="zipcode">
+            </div>
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-warning">Place Order</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Toggle between existing and custom address forms
+    document.addEventListener('DOMContentLoaded', function() {
+        const existingRadio = document.getElementById('existing');
+        const customRadio = document.getElementById('custom');
+        const existingAddresses = document.getElementById('existing-addresses');
+        const customAddress = document.getElementById('custom-address');
+
+        function toggleAddressForms() {
+            if (existingRadio.checked) {
+                existingAddresses.style.display = 'block';
+                customAddress.style.display = 'none';
+            } else if (customRadio.checked) {
+                existingAddresses.style.display = 'none';
+                customAddress.style.display = 'block';
+            }
+        }
+
+        existingRadio.addEventListener('change', toggleAddressForms);
+        customRadio.addEventListener('change', toggleAddressForms);
+
+        toggleAddressForms();  // Initialize on page load
+    });
+</script>
+{% endblock main-content %}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+    <title>Dairy Products | {% block title %}{% endblock title %}</title>
+</head>
+
+<body class="dr">
+    <nav class="navbar navbar-expand-lg bg-purple-custom sticky-top">
+        <a class="navbar-brand" href="#">
+          <img src="{% static 'app/images/product/neel.png' %}" alt="" width="70" height="50">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            {% if request.user.is_authenticated %}
+            <li class="nav-item active">
+              <a class="nav-link text-white" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Products
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'category' 'ML' %}"> <img src="{% static 'app/images/banner/milk.png' %}" height="15" width="15"> Milk </a>
+                <a class="dropdown-item" href="{% url 'category' 'CR' %}"> <img src="{% static 'app/images/banner/curd.png' %}" height="15" width="15"> Curd </a>
+                <a class="dropdown-item" href="{% url 'category' 'MS' %}"> <img src="{% static 'app/images/banner/smoothie.png' %}" height="15" width="15"> Milkshek </a>
+                <a class="dropdown-item" href="{% url 'category' 'LS' %}"> <img src="{% static 'app/images/banner/lassi.png' %}" height="15" width="15"> Lassi </a>
+                <a class="dropdown-item" href="{% url 'category' 'GH' %}"> <img src="{% static 'app/images/banner/ghee.png' %}" height="15" width="15"> Ghee </a>
+                <a class="dropdown-item" href="{% url 'category' 'PN' %}"> <img src="{% static 'app/images/banner/paneer.png' %}" height="15" width="15"> Paneer </a>
+                <a class="dropdown-item" href="{% url 'category' 'CZ' %}"> <img src="{% static 'app/images/banner/cheese.png' %}" height="15" width="15"> Chees </a>
+                <a class="dropdown-item" href="{% url 'category' 'IC' %}"> <img src="{% static 'app/images/banner/ice-cream.png' %}" height="15" width="15"> Ice-Creams </a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'about' %}">About Us</a>
+            </li>
+            
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'contact' %}">Contect Us</a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-secondary my-2 my-sm-0 text-white" type="submit">Search</button>
+          </form>
+        </div>
+
+        <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown mx-2">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="{% static 'app/images/banner/user.png' %}" height="30" width="30">
+             </a>
+             <ul class="dropdown-menu  aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+                <li><a class="dropdown-item" href="{% url 'orders' %}">Orders</a></li>
+                <li><a class="dropdown-item" href="{% url 'passwordchange' %}">Change Password</a></li>
+                <!-- <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li> -->
+                <form method="post" action="{% url 'logout' %}"  class="dropdown-item">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-link p-0 m-0 align-baseline text-dark" style="text-decoration: none;">Logout</button>
+              </form>
+             </ul>
+          </li>
+          <li class="nav-item mx-2">
+            <a href="{% url 'showcart' %}" class="nav-link text-white mr-2">Cart<img src="{% static 'app/images/banner/cart.webp' %}" alt="" height="25" width="25" class="ml-3 mb-2"></a>
+          </li>
+
+          <li class="nav-item mx-2">
+            <a href="#" class="nav-link text-white mr-2">Whishlist<img src="{% static 'app/images/banner/like.webp' %}" alt="" height="25" width="25" class="ml-2 mb-1"></a>
+          </li>
+          {% else %}
+          <li class="nav-item mx-2">
+            <a href="{% url 'login' %}" class="nav-link text-white">Log In</a>
+          </li>
+          <li class="nav-item mx-2">
+            <a href="{% url 'customerregistration' %}" class="nav-link text-white">Resgistration</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% block banner_slider %}{% endblock banner_slider %}
+    {% block information %}{% endblock information %}
+    {% block main-content %}{% endblock main-content %}
+
+    <footer class="container-fluid  bg-purple-custom text-center p-2 mt-5 sticky-bottom ">
+        Copyright : 2024 | Develop by Aniket Sanchaniya
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="{% static 'app/js/myscript.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+.bg-purple-custom {
+  background-color: #AD79AE;
+}
+
+.custom-shadow {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.card {
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2), 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.anny{
+  color: red;
+}
